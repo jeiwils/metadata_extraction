@@ -1,6 +1,5 @@
-# Example settings. Copy this file (e.g. to export_configs.toml for a full run,
-# test_configs.toml for a trial) and set `documents` to your own folder. Copies
-# other than this one are ignored by git, so local paths stay private.
+# Settings for a TEST run: a fixed random sample of documents, written to
+# their own output folders so they never mix with a full run.
 #
 # Each module reads only its own section plus [run]:
 #   a_extract_pages.py     reads [pages] and [run]
@@ -15,7 +14,7 @@
 
 # Folder of original documents (PDF, EPUB, XPS, multi-page TIFF). Sub-folders
 # are searched too.
-documents = 'D:\path\to\your\documents'
+documents = 'D:\datasets\test_set_pdfs\monographs\COMPLETED ITEMS'
 
 # Where the page images go: one sub-folder per document. Must not be inside
 # `documents`.

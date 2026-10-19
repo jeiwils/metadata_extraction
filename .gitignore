@@ -10,10 +10,6 @@ runs/
 *.part
 
 # data
-# Local settings (real folder paths) - only the example config is shared
-configs/*.toml
-!configs/example_configs.toml
-
 # Organisational data and internal notes
 testing/ground_truth.csv
 docs/

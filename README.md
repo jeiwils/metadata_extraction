@@ -81,18 +81,19 @@ py -3 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ollama pull qwen2.5vl:7b
-Copy-Item configs\example_configs.toml configs\my_configs.toml
 ```
 
-In your copy, set `[pages] documents` to your folder of documents. Every
-setting is explained in the file.
+In `configs\export_configs.toml` (full run) and `configs\test_configs.toml`
+(a fixed sample of 20, for trials), set `[pages] documents` to your folder of
+documents. Every setting is explained in the file.
 
 ## Running
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
-python a_extract_pages.py configs\my_configs.toml       # documents -> page images
-python b_extract_metadata.py configs\my_configs.toml    # page images -> MARC records
+python a_extract_pages.py configs\export_configs.toml       # documents -> page images
+python b_extract_metadata.py configs\export_configs.toml    # page images -> MARC records
 ```
 
-Both can be stopped and rerun; finished items are skipped.
+Both can be stopped and rerun; finished items are skipped. Use
+`configs\test_configs.toml` instead for a trial run.
