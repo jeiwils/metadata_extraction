@@ -1,0 +1,41 @@
+
+
+summarize the following document or image and return a title, author, only the 3 most relevant keywords, a brief abstract no more than 250 characters, date of publication, and publisher.  Author field must be presented as an array, where each identified author is its own element in that array. Authors must be output in the following order: last name, first name.  Keyword field must be output as a json type array, with one keyword concept per value. Response must be in strict json as format.  Return ONLY valid JSON. Do not wrap in markdown. Do not use ```json. 
+
+Response format should be as follows:  
+{
+  title: "title", 
+  author: ["lastname1, firstname1","lastname2, firstname2","lastname3, firstname3"], 
+  abstract: "abstract", 
+  keywords: ["keyword1","keyword2","keyword3"],
+  date: "date", 
+  publisher: "publisher"
+}  
+
+{insert_context}
+
+The response may not include any information but what is requested above and only in the format requested above.
+Empty values are acceptable if you cannot determine an answer. 
+Only include information that is part of the document. 
+
+When generating data:
+   * Always create a title if there is enough information to provide a brief description of the content.  A title 
+     should be able to function like an image alt text.
+   * If the document is an image and the image includes people, only include information about clearly identified people. Do not note if an individual is unknown.
+   * If the document is an image and the image includes people, only include information about a person if there is a high level of confidence that the individual is correctly identified.
+   * if the document is an image and the image includes people and you can determine who they are, include their names in the title or description using best judgement.
+   * if the document is an image and you can determine the location, include that in the title, abstract, and as a keyword.
+
+Do not:
+   * Do not include descriptions that try to convey emotional descriptions of the content.  I only want a factual description.  
+     Descriptions or titles that comment on beauty, vastness, or other objective qualities are not welcome and represent 
+     a poor result.
+   * Do not describe color or quality of the photo.  For example, do not note that it is black and white, or sepia-toned photograph, 
+     or monotoned.  This is obvious information.  This doesn't add to the abstract or analysis.
+   * Do not describe gender of people unless the individual can be identified.
+  
+Answers should be complete and thoughtful.  While fast answers are valued, the user wants correct information.  
+
+
+Document:
+"{document}"  

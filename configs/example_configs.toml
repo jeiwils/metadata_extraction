@@ -1,0 +1,115 @@
+# Example settings. Copy this file (e.g. to export_configs.toml for a full run,
+# test_configs.toml for a trial) and set `documents` to your own folder. Copies
+# other than this one are ignored by git, so local paths stay private.
+#
+# Each module reads only its own section plus [run]:
+#   a_extract_pages.py     reads [pages] and [run]
+#   b_extract_metadata.py  reads [metadata] and [run]
+# Every setting is required. Paths can be absolute (as `documents` is) or relative to
+# this file (as the rest are, so the project folder can be moved).
+
+
+# ---------------------------------------------------------------------------
+[pages]   # a_extract_pages.py: documents -> page images
+# ---------------------------------------------------------------------------
+
+# Folder of original documents (PDF, EPUB, XPS, multi-page TIFF). Sub-folders
+# are searched too.
+documents = 'D:\path\to\your\documents'
+
+# Where the page images go: one sub-folder per document. Must not be inside
+# `documents`.
+output = '../runs/test_run/pages'
+
+# How many pages to take from the start of each document. 5 covers cover,
+# half-title, title page and its back (where the copyright line usually is).
+# EPUBs sometimes start with a long contents list, which can push the title
+# page further back.
+n_pages = 5
+
+# Resolution of the page images, in dots per inch. 200 keeps small print
+# readable for OCR. Higher makes bigger files without helping the model, which
+# sees the pages shrunk to max_image_side anyway.
+dpi = 200
+
+
+# ---------------------------------------------------------------------------
+[metadata]   # b_extract_metadata.py: page images -> XML records
+# ---------------------------------------------------------------------------
+
+# Folder with one sub-folder of page images per book - normally [pages] output
+# above.
+pages = '../runs/test_run/pages'
+
+# Where the results go: processed\, review\ and manifest.csv. Must not be
+# inside `pages`.
+output = '../runs/test_run/results'
+
+# The Ollama vision model that reads the pages. Check the exact name with:
+# ollama list
+model = 'qwen2.5vl:7b'
+
+# The instructions given to the model.
+prompt = '../prompts/updated_extraction_prompt.txt'
+
+# The model's working memory for one request, in tokens. The page images take
+# most of it: 8192 fits 5 pages at max_image_side 1024. A run stops with
+# "input probably truncated" if it's too small; larger uses more RAM.
+num_ctx = 8192
+
+# Page images are cropped to their printed area and shrunk to this many pixels
+# on the long side before the model sees them. Smaller is faster but risks
+# unreadable small print; 1024 is a good balance.
+max_image_side = 1024
+
+# A page counts as blank - and is skipped - when less than this share of it is
+# dark "ink". 0.0005 = 0.05% of the page. Keep it low: a sparse half-title
+# measured 0.002.
+blank_page_ink = 0.0005
+
+# Blur check. Each page gets a sharpness score: the variance of the Laplacian,
+# an image filter that responds to sharp edges. Crisp text has strong edges
+# and scores in the thousands; a blurred scan scores low. If even the sharpest
+# page scores below this, the book goes to review as "images blurry". The
+# score depends on dpi, so recheck this value if you change dpi.
+min_sharpness = 100.0
+
+# Read every book twice and compare. The second reading uses slightly smaller
+# images, so it's a genuinely second look. If the two disagree on title,
+# authors, year or publisher, the book goes to review, with both readings in
+# the reason. A reading that only adds the subtitle doesn't count as
+# disagreeing; the fuller title is kept. Cost: the model runs twice per book,
+# so this roughly doubles the model time - the biggest single setting for
+# speed. false = read once.
+agreement_check = true
+
+# Cross-check the model's answer against OCR. A separate program, RapidOCR,
+# reads the printed text on the same pages, and each field the model gave is
+# scored 0-1 for how much of it is actually printed there (scores go in the
+# XML and manifest.csv). It catches answers the model misread or invented, and
+# a year that differs from the copyright line. It can't tell whether a printed
+# name is the right KIND of name (e.g. the authors' group instead of the
+# publisher). Adds 10-45 seconds per book.
+ocr_check = true
+
+# Send a book to review if the title or publisher scores below this in the OCR
+# check. Correct titles scored 0.83-1.00 in testing, wrong ones mostly under
+# 0.6. 0 = record the scores but never send a book to review because of them.
+ocr_review_below = 0.7
+
+
+# ---------------------------------------------------------------------------
+[run]   # both modules
+# ---------------------------------------------------------------------------
+
+# How many documents/books to process. 0 = all of them.
+limit = 20
+
+# true = a random sample of `limit` items, the same sample every time (so
+# before/after comparisons are fair). false = the first `limit` in
+# alphabetical order.
+random_sample = true
+
+# false = skip items already done in an earlier run (so a stopped run can
+# carry on). true = redo everything.
+overwrite = false

@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Everything the pipeline writes (page images, records, copied documents, manifests)
+runs/
+
+# Half-written files left by an interrupted run
+*.part
+
+# data
+# Local settings (real folder paths) - only the example config is shared
+configs/*.toml
+!configs/example_configs.toml
+
+# Organisational data and internal notes
+testing/ground_truth.csv
+docs/

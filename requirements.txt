@@ -1,0 +1,6 @@
+pymupdf>=1.24
+ollama>=0.4
+opencv-python>=4.8
+numpy>=1.24
+rapidocr_onnxruntime>=1.2
+lxml>=5.0

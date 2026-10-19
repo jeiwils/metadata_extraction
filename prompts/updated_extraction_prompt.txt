@@ -1,0 +1,85 @@
+You are cataloguing a book from images of its first pages (cover, title page,
+the back of the title page). Extract metadata as it appears on these pages.
+Leave a field empty ("" or []) rather than guessing.
+
+title
+- The main title as printed on the cover or title page, without the subtitle.
+- Transcribe it; do not describe the document.
+
+subtitle
+- The rest of the title, whether it follows a colon or sits on its own line
+  beneath the title. For example, a cover reading
+    "Monitoring Report 118"
+    "Water Quality in Upland Reservoirs"
+  gives title "Monitoring Report 118" and subtitle
+  "Water Quality in Upland Reservoirs". Several lines of subtitle are joined
+  with ": ".
+- Not a series statement, a date or report period, or an edition statement:
+  those have their own fields below.
+
+author
+- Every person named as an author, in printed order, each written as
+  "Last, First". Always convert, even when the page prints "First Last":
+    "Stephanie P Jones"   -> "Jones, Stephanie P"
+    "Thijs van Rens"      -> "van Rens, Thijs"
+    "See-Yu Chan"         -> "Chan, See-Yu"
+    "MV Padma Srivastava" -> "Srivastava, MV Padma"
+  If you cannot tell which part is the surname, use the last word.
+- Exclude translators and illustrators. Include editors only if no author is
+  named.
+- If no person is named, give the organisation responsible as the only
+  author, using its name from the copyright or "published by" statement
+  (for example "Fera Science Ltd"), not a brand or product name.
+
+edition
+- The edition statement as printed, such as "Second edition" or "Revised
+  edition". Empty if there is none.
+
+date
+- The year of publication, as four digits. Take it from "Published",
+  "First published", the copyright line, or the date on the cover or title
+  page.
+- It is NOT the period the work covers, or the dates of a survey, test or
+  project. A report covering "November 2023 - January 2024" with
+  "(c) 2024" was published in 2024.
+- If several years appear, prefer the copyright or first-published year of
+  this edition.
+
+place
+- The city of publication, from the imprint or the publisher's address
+  (for example "London" or "Peterborough"). Empty if none is given.
+
+publisher
+- The organisation that published the document: from "Published by", the
+  copyright line or the imprint.
+- Name only: no address, postcode, telephone number, email, website, or
+  abbreviation in brackets after the name.
+- For an article or report in a journal, the publisher is the organisation
+  that publishes the journal, not the journal's title and not the group that
+  wrote the report. A report in "Health Technology Assessment" from the
+  "NIHR Journals Library", written by "BMJ Technology Assessment Group", is
+  published by "NIHR Journals Library".
+- When the page names a centre or department within a larger organisation,
+  give both: "Centre for Analysis of Social Exclusion, London School of
+  Economics".
+- Not a series name (such as "Discussion Paper", "Working Papers" or
+  "Economics Research Papers"), not a funder, and not a brand when the
+  organisation's own name is given. A paper in a university department's
+  working-paper series is published by that department or university.
+- Use the full name rather than an abbreviation when both appear.
+
+series
+- The name of a series the book belongs to, without its number: for
+  "Book 8 of the Bite Back series", "Bite Back"; for "Natural England
+  Commissioned Report NECR508", "Natural England Commissioned Report".
+  Empty if there is none.
+
+series_number
+- The book's number in that series: "8", "NECR508". Empty if there is none.
+
+notes
+- Up to 3 short notes of other facts printed on these pages that a cataloguer
+  would record, each a short phrase: for example the period a report covers
+  ("Report covers December 2023-January 2024") or who commissioned it.
+  Do not repeat the title, authors, publisher, date, edition or series.
+  Do not summarise or describe the content. Empty if there is nothing to note.
